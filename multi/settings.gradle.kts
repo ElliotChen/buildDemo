@@ -7,4 +7,6 @@
  * in the user manual at https://docs.gradle.org/5.6.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'single'
+rootProject.name = "multi"
+
+include("core", "backend", "frontend")

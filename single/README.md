@@ -39,17 +39,17 @@ export GRADLE_HOME=`brew --prefix gradle`/libexec
 $ gradle -v
 
 ------------------------------------------------------------
-Gradle 5.6.2
+Gradle 6.4.1
 ------------------------------------------------------------
 
-Build time:   2019-09-05 16:13:54 UTC
-Revision:     55a5e53d855db8fc7b0e494412fc624051a8e781
+Build time:   2020-05-15 19:43:40 UTC
+Revision:     1a04183c502614b5c80e33d603074e0b4a2777c5
 
-Kotlin:       1.3.41
-Groovy:       2.5.4
-Ant:          Apache Ant(TM) version 1.9.14 compiled on March 12 2019
-JVM:          12.0.2 (Oracle Corporation 12.0.2+10)
-OS:           Mac OS X 10.14.5 x86_64
+Kotlin:       1.3.71
+Groovy:       2.5.10
+Ant:          Apache Ant(TM) version 1.10.7 compiled on September 1 2019
+JVM:          14.0.1 (Oracle Corporation 14.0.1+7)
+OS:           Mac OS X 10.15.3 x86_64
 
 ```
 
@@ -57,10 +57,10 @@ OS:           Mac OS X 10.14.5 x86_64
 
 ## 二、建立基本Java Project
 
-執行**```gradle init --type java-application```**，可以產生基本的Java Project，可以把**```gradle init --type ＊＊＊```**當作是**```mvn archetype:generate```**，```--type```後面的參數可使用不同類型的範本名稱。
+執行**```gradle init --type java-application --dsl kotlin```**，可以產生基本的Java Project，可以把**```gradle init --type ＊＊＊```**當作是**```mvn archetype:generate```**，```--type```後面的參數可使用不同類型的範本名稱。
 
 ```cmd
-$ gradle init --type java-application
+$ gradle init --type java-application --dsl kotlin
 ```
 
 產生的檔案如下
@@ -68,15 +68,15 @@ $ gradle init --type java-application
 ```cmd
 -rw-r--r--   1 elliot  staff   103 Sep 12 08:21 .gitignore
 drwxr-xr-x   4 elliot  staff   128 Sep 12 08:20 .gradle
--rw-r--r--   1 elliot  staff  1154 Sep 12 08:21 build.gradle
+-rw-r--r--   1 elliot  staff  1154 Sep 12 08:21 build.gradle.kts
 drwxr-xr-x   3 elliot  staff    96 Sep 12 08:20 gradle
 -rwxr-xr-x   1 elliot  staff  5960 Sep 12 08:20 gradlew
 -rw-r--r--   1 elliot  staff  2942 Sep 12 08:20 gradlew.bat
--rw-r--r--   1 elliot  staff   351 Sep 12 08:21 settings.gradle
+-rw-r--r--   1 elliot  staff   351 Sep 12 08:21 settings.gradle.kts
 drwxr-xr-x   4 elliot  staff   128 Sep 12 08:21 src
 ```
 
-重點放在**```build.gradle```**及**```settings.gradle```**上面，Gradle會參照**```build.gradle```**裡的描述來建構專案，而會將**```settings.gradle```**裡的設定引入**```build.gradle```**之中。
+重點放在**```build.gradle.kts```**及**```settings.gradle.kts```**上面，Gradle會參照**```build.gradle.kts```**裡的描述來建構專案，而會將**```settings.gradle.kts```**裡的設定引入**```build.gradle.kts```**之中。
 
 ps: Maven可用的完整指令 
 
@@ -88,12 +88,12 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Darchetyp
 
 ## 三、build.gradle
 
-先看看**```build.gradle```**
+先看看**```build.gradle`.kts``**
 
 ```gradle
 plugins {
-    id 'java'
-    id 'application'
+    java
+    application
 }
 
 repositories {
@@ -101,13 +101,20 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:28.0-jre'
+    // This dependency is used by the application.
+    implementation("com.google.guava:guava:29.0-jre")
     
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+    // Use JUnit Jupiter API for testing.
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
 }
 
-mainClassName = 'App'
+application {
+    // Define the main class for the application
+    mainClassName = "tw.elliot.App"
+}
 ```
 
 ### 1. plugin: id 'java'
@@ -171,14 +178,18 @@ runtimeOnly | 同Maven runtime，執行時使用
 
 ```
 sourceSets {
-	main {
-		java {
-			srcDirs = ['src/java']
-		}
-		resources {
-			srcDirs = ['src/resources']
-		}
-	}
+    main {
+        java {
+            srcDirs("src/main/java")
+        }
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+    test {
+        java.srcDirs("src/test/java")
+        resources.srcDirs("src/tes/resources")
+    }
 }
 ```
 
