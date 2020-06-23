@@ -57,3 +57,8 @@ gradle-app.setting
 # Ignore Gradle Wapper
 gradle/
 gradlew*
+
+.clover/
+
+/target/
+/gradle/

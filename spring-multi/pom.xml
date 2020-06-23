@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>tw.elliot</groupId>
+	<artifactId>multi</artifactId>
+	<version>${global.version}</version>
+	<packaging>pom</packaging>
+	<name>multi</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!--<java.version>12</java.version>-->
+
+		<global.version>1.0-SNAPSHOT</global.version>
+		<maven.compiler.source>14</maven.compiler.source>
+		<maven.compiler.target>14</maven.compiler.target>
+
+		<spring.version>5.2.7.RELEASE</spring.version>
+		<spring.security.version>5.3.3.RELEASE</spring.security.version>
+		<spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+		<spring.data.version>Neumann-RELEASE</spring.data.version>
+		<hibernate.version>5.4.14.Final</hibernate.version>
+		<jackson.version>2.10.3</jackson.version>
+		<junit.version>5.6.2</junit.version>
+		<jetty.version>9.4.11.v20180605</jetty.version>
+		<micrometer.version>1.5.1</micrometer.version>
+		<reactor.version>Dysprosium-SR1</reactor.version>
+		<jasypt.version>3.0.2</jasypt.version>
+		<guava.version>29.0-jre</guava.version>
+
+		<plug.compiler.version>3.8.1</plug.compiler.version>
+		<plug.clean.version>3.1.0</plug.clean.version>
+		<plug.surefire.version>2.22.2</plug.surefire.version>
+		<plug.jar.version>3.2.0</plug.jar.version>
+		<plug.war.version>3.2.3</plug.war.version>
+		<plug.info.version>3.1.0</plug.info.version>
+		<plug.resources.version>3.1.0</plug.resources.version>
+		<plug.site.version>3.9.0</plug.site.version>
+		<plug.deploy.version>2.8.2</plug.deploy.version>
+		<plug.install.version>2.5.2</plug.install.version>
+		<plug.dependency.version>3.1.2</plug.dependency.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!--BOM-->
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>4.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet.jsp.jstl</groupId>
+				<artifactId>jstl-api</artifactId>
+				<version>1.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${plug.compiler.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${plug.site.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<outputDirectory>${basedir}/target/site</outputDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${plug.info.version}</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${plug.surefire.version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>quick</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+
+	<modules>
+		<module>core</module>
+		<module>frontend</module>
+		<module>backend</module>
+	</modules>
+</project>
