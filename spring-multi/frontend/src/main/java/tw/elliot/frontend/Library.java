@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Library {
-    public boolean someLibraryMethod() {
-        return true;
-    }
+	public boolean someLibraryMethod() {
+		return true;
+	}
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        SpringApplication.run(Library.class, args);
-    }
+		SpringApplication.run(Library.class, args);
+	}
 }
